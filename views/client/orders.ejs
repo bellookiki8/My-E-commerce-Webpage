@@ -1,0 +1,63 @@
+<%- include('includes/header') %>
+    <div class="page-heading products-heading header-text">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="text-content">
+                        <h4>Orders</h4>
+                        <h2>What you have ordered</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="table-responsive mt-5">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <td>Image</td>
+                    <td>Product</td>
+                    <td>Quantity</td>
+                    <td>Unit Price</td>
+                    <td>Total Price</td>
+                    <td>Status</td>
+                    <td>Action</td>
+                </tr>
+            </thead>
+            <tbody>
+                <% for( let order of orders) {%>
+                    <tr>
+                        <td>
+                            <%= order.product %>
+                        </td>
+                        <td>
+                            <img src="<%= order.product.image %>" style="width: 200px;" alt="">
+                        </td>
+                        <td>
+                            <%= order.quantity %>
+                        </td>
+                        <td>
+                            <%= order.unitPrice %>
+                        </td>
+                        <td>
+                            <%= order.totalPrice %>
+                        </td>
+                        <td>
+                            <%= order.status %>
+                        </td>
+                        <td>
+                            <a href="/order/cancel/<%- order.id %>"
+                                class="btn <%- order.status == 'Completed' ? 'disabled' : '' %> btn-danger btn-sm">Cancel</a>
+                            <a href="/order/received/<%- order.id %>"
+                                class="btn <%- order.status != 'Pending' ? 'disabled' : '' %>  btn-success btn-sm">Received</a>
+                        </td>
+                    </tr>
+                    <% } %>
+            </tbody>
+        </table>
+    </div>
+    </div>
+    
+
+    <%- include('includes/footer') %>

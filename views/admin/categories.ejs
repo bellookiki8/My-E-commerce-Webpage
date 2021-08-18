@@ -1,0 +1,160 @@
+<%- include('includes/header') %>
+  <%- include('includes/sidebar') %>
+    <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.css">
+    <div class="content-wrapper">
+      <div class="row">
+        <div class="col-md-12 grid-margin">
+          <div class="d-flex justify-content-between flex-wrap">
+            <div class="d-flex align-items-end flex-wrap">
+              <div class="mr-md-3 mr-xl-5">
+                <h2>Welcome back,</h2>
+                <p class="mb-md-0">Product categories.</p>
+              </div>
+              <div class="d-flex">
+                <i class="mdi mdi-home text-muted hover-cursor"></i>
+                <p class="text-muted mb-0 hover-cursor">&nbsp;/&nbsp;Dashboard&nbsp;/&nbsp;</p>
+                <p class="text-primary mb-0 hover-cursor">Categories</p>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between align-items-end flex-wrap">
+              <button type="button" class="btn btn-light bg-white btn-icon mr-3 d-none d-md-block ">
+                <i class="mdi mdi-download text-muted"></i>
+              </button>
+
+              <button type="button" class="btn btn-light bg-white btn-icon mr-3 mt-2 mt-xl-0" title="Add a Category"
+                data-toggle="modal" data-target="#addCategoryModal">
+                <i class="mdi mdi-plus text-muted"></i>
+              </button>
+              <button class="btn btn-primary mt-2 mt-xl-0">Download report</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-2">
+        <div class="row">
+          <div class="col-12">
+            <table class="table table-striped table-sm table-bordered">
+              <thead>
+                <tr>
+                  <th>Photo</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Menu</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% for( let category of categories) {%>
+                  <tr>
+                    <td><img src="<%= category.image %> " alt=""></td>
+                    <td><%= category.name %></td>
+                    <td><%- category.description %></td>
+                    <td>
+                      <button onclick="bindCategoryValue('<%- category._id %>')" class="btn btn-success btn-sm" data-toggle="modal" data-target="#editCategoryModal"><i class="mdi mdi-border-color"></i></button>
+                      <a href="/admin/category/<%- category.id %>/delete" class="btn btn-danger btn-sm"><i class="mdi mdi-delete"></i></a>
+                    </td>
+                  </tr>
+                  <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- The Modal -->
+    <div class="modal" id="addCategoryModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form action="" method="post" enctype="multipart/form-data">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Fill the form to add a category</h4>
+              <button type="button" class="close" data-dismiss="modal">
+                &times;
+              </button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-12 form-group">
+                  <label for="name">Category name</label>
+                  <input class="form-control" name="name" id="name">
+                </div>
+                <div class="col-12 form-group">
+                  <label for="description">Description</label>
+                  <textarea class="form-control" name="description" id="description"></textarea>
+                </div>
+                <div class="col-12 form-group">
+                  <label for="name">Category name</label>
+                  <input class="form-control" name="image" id="image" type="file">
+                </div>
+              </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- The Modal -->
+    <div class="modal" id="editCategoryModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form action="/admin/category/edit" method="post" enctype="multipart/form-data">
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Edit category</h4>
+              <button type="button" class="close" data-dismiss="modal">
+                &times;
+              </button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-12 form-group">
+                  <label for="name">Category name</label>
+                  <input class="form-control" name="name" id="edit-name">
+                  <input type="hidden" class="form-control" name="id" id="id" value="">
+                </div>
+                <div class="col-12 form-group">
+                  <label for="description">Description</label>
+                  <textarea class="form-control" name="description" id="edit-description"></textarea>
+                </div>
+                <div class="col-12 form-group">
+                  <label for="name">Image</label>
+                  <input class="form-control" name="image" id="edit-image" type="file">
+                </div>                
+              </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="/js/axios.min.js"></script>
+    <script>
+      async function bindCategoryValue(category_id){
+        let result = await axios.get(`/admin/category/api/${category_id}`)
+        console.log(result)
+          if (result.error) {
+            alert("Cannot find category")
+            return
+          }
+          let category = result.data
+          document.querySelector('#edit-name').value = category.name;
+          document.querySelector('#edit-description').value = category.description;
+          document.querySelector('#id').value = category._id;
+      }
+    </script>
+    <%- include('includes/footer') %>

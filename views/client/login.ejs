@@ -1,0 +1,32 @@
+<%- include('includes/header') %>
+    <style>
+        header {
+            position: absolute;
+            top: 0 !important;
+        }
+
+        footer {
+            position: absolute;
+            width: 100%;
+            bottom: 0 !important;
+        }
+    </style>
+    <div class="flex-center">
+        <div class="container mt-5">
+            <a class="text-center text-success" >
+                <h2>FEAQOV's <em>Store</em></h2>
+            </a>
+            <h3 class="text-center text-white">LOG-IN</h3>
+            <form method="POST">
+                <input class="form-control mt-4" name="phone"  placeholder="Your phone">
+                <input class="form-control mt-4" name="password" type="password" placeholder="Password">
+                <a href="#!" class="text-primary">Forgot password?</a>
+                <div class="row">
+                    <input class="form-control btn-success mt-5 col" type="submit" value="LOG-IN">
+                    <a class="form-control btn-success mt-5 ml-3 col text-center" type="submit"
+                        href="signup.html">SIGN-UP</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <%- include('includes/footer') %>
